@@ -1,0 +1,258 @@
+{
+  "warehouses": {
+    "Hồ Chí Minh": {
+      "code": "HCM",
+      "keywords": [
+        "HCM",
+        "Hồ Chí Minh",
+        "Sài Gòn"
+      ]
+    },
+    "Hà Nội": {
+      "code": "HN",
+      "keywords": [
+        "HN",
+        "Hà Nội"
+      ]
+    }
+  },
+  "combo_sku_mode": "keep",
+  "combo_to_unit": {},
+  "sku_to_misa": {
+    "CB2_SPEARMINT_10S": "SGM SPEARMINT 10S",
+    "SGM_THIN_SPEARMINT10": "SGM SPEARMINT 10S",
+    "SGM_SPEARMINT_H10": "SGM SPEARMINT 10S",
+    "SGM_THIN_10": "SGM SUPERTHIN 10S",
+    "SGM_combothin": "SGM SUPERTHIN 10S",
+    "SGM_SUPERTHIN_H10": "SGM SUPERTHIN 10S",
+    "SGM_COMBO2_THIN_H10": "SGM SUPERTHIN 10S",
+    "CB2_001_5S": "SGM 001 5S",
+    "SGM001H5": "SGM 001 5S",
+    "SGM_THIN_EXCEED12": "SGM EXCEED2000 12S",
+    "CB2_EXCEED2000_12c": "SGM EXCEED2000 12S",
+    "SGM_002_12S": "SGM 002 12S",
+    "SGMGEL60G": "SGM GEL 60G",
+    "SGM_GEL60G": "SGM GEL 60G",
+    "SGM_THIN_001H2": "SGM 001 2S",
+    "SGM001H2": "SGM 001 2S",
+    "CB2002H6": "SGM 002 6S",
+    "SGM_002_6S": "SGM 002 6S",
+    "SGM_THIN_002H6": "SGM 002 6S",
+    "SGM_002_H6": "SGM 002 6S",
+    "SGM_THIN_002H2": "SGM 002 2S",
+    "SGM_002_2S": "SGM 002 2S",
+    "SGM_002_2S_L": "SGM 002 2S - L",
+    "SGM001H2EXTRA": "SGM 001 2S MORE LUBE",
+    "SGM_001_H2_EXTRA": "SGM 001 2S MORE LUBE",
+    "SGM_THIN_GREEN10": "SGM GREEN 10S",
+    "CB2_001_2L": "SGM 001 2S - L",
+    "SGM_001_H2_L": "SGM 001 2S - L",
+    "SGM_STRAWBERRY_3S": "SGM STRAWBERRY 3S",
+    "SGM_STRAWBERRY_3S_CB3": "SGM STRAWBERRY 3S",
+    "SGM_THIN_TIGHTFIT12": "SGM TIGHT FIT 12S",
+    "SGM_WHITE_10": "SGM WHITE 10S",
+    "SGM001H5EXTRA": "SGM 001 5S MORE LUBE",
+    "SGM_001_H5_EXTRA": "SGM 001 5S MORE LUBE",
+    "CB2_001_5S_EXTRA": "SGM 001 5S MORE LUBE"
+  },
+  "adapter": {
+    "enabled": true,
+    "keywords": [
+      "máy đo huyết áp"
+    ],
+    "sku": "Adapto",
+    "name": "Adapto",
+    "unit": "Cái",
+    "mode": "per_order",
+    "quantity": 1
+  },
+  "ocr_languages": "vie+eng",
+  "catalog": {
+    "SGM 001 1S": {
+      "name": "Bao cao su Sagami Original 0.01 - 1s",
+      "unit": "Hộp"
+    },
+    "SGM 001 2S": {
+      "name": "Bao cao su Sagami Original 0.01 - 2s",
+      "unit": "Hộp"
+    },
+    "SGM 001 2S - L": {
+      "name": "Bao cao su Sagami Original 0.01 - 2s, size L",
+      "unit": "Hộp"
+    },
+    "SGM 001 2S MORE LUBE": {
+      "name": "Bao cao su Sagami Original 0.01 - 2s More Lubrucant",
+      "unit": "Hộp"
+    },
+    "SGM 001 3s": {
+      "name": "Bao cao su Sagami Original 0.01 - 3s",
+      "unit": "Hộp"
+    },
+    "SGM 001 5S": {
+      "name": "Bao cao su Sagami Original 0.01 - 5s",
+      "unit": "Hộp"
+    },
+    "SGM 001 5S MORE LUBE": {
+      "name": "Bao cao su Sagami Original 0.01 - 5s (More Lubricant)",
+      "unit": "Hộp"
+    },
+    "SGM 002 12S": {
+      "name": "Bao cao su Sagami Original 0.02 -12s",
+      "unit": "Hộp"
+    },
+    "SGM 002 1S": {
+      "name": "Bao cao su Sagami Original 0.02 -1s",
+      "unit": "Hộp"
+    },
+    "SGM 002 2S": {
+      "name": "Bao cao su Sagami Original 0.02 - 2s",
+      "unit": "Hộp"
+    },
+    "SGM 002 2S - L": {
+      "name": "Bao cao su Sagami Original 0.02 - 2s size L",
+      "unit": "Hộp"
+    },
+    "SGM 002 3S MORE LUBE": {
+      "name": "Bao cao su Sagami Original 0.02 - 3s",
+      "unit": "Hộp"
+    },
+    "SGM 002/6 QUICK": {
+      "name": "Bao cao su Sagami Original 0.02 - 6s Quick",
+      "unit": "Hộp"
+    },
+    "SGM 002 6S": {
+      "name": "Bao cao su Sagami Original 0.02 - 6s",
+      "unit": "Hộp"
+    },
+    "SGM 002 6S MORE LUBE": {
+      "name": "Bao cao su Sagami Original 0.02 - 6s (More Lubricant)",
+      "unit": "Hộp"
+    },
+    "SGM 009 10S": {
+      "name": "Bao cao su Sagami Super Dots One Stage 009",
+      "unit": "Hộp"
+    },
+    "SGM ARE 10S": {
+      "name": "Bao cao su Sagami Are Are 10s",
+      "unit": "Hộp"
+    },
+    "SGM ARE 5S": {
+      "name": "Bao cao su Sagami Are Are 5s",
+      "unit": "Hộp"
+    },
+    "SGM COLA 10S": {
+      "name": "Bao cao su Sagami Cola 10s",
+      "unit": "Hộp"
+    },
+    "SGM COLA 3S": {
+      "name": "Bao cao su Sagami Cola 3s",
+      "unit": "Hộp"
+    },
+    "SGM EXCEED2000 12S": {
+      "name": "Bao cao su Sagami Exceed 2000 12s",
+      "unit": "Hộp"
+    },
+    "SGM FEEL LONG 10S": {
+      "name": "Bao cao su Sagami Feel Long 10s",
+      "unit": "Hộp"
+    },
+    "SGM FEEL UP 10S": {
+      "name": "Bao cao su Sagami Feel Up 10s",
+      "unit": "Hộp"
+    },
+    "SGM GEL 3ML": {
+      "name": "Gel Sagami gói 3ml",
+      "unit": "Gói"
+    },
+    "SGM GEL 60G": {
+      "name": "Gel Original tuýp 60g",
+      "unit": "Tuýp"
+    },
+    "SGM GOLD CLASSIC 10S": {
+      "name": "Bao cao su Sagami Love me Gold Classic 10s",
+      "unit": "Hộp"
+    },
+    "SGM GOLD CLASSIC 12S": {
+      "name": "Bao cao su Sagami Love me Gold Classic 12s",
+      "unit": "Hộp"
+    },
+    "SGM GREEN 10S": {
+      "name": "Bao cao su Sagami Xtreme Green 10s",
+      "unit": "Hộp"
+    },
+    "SGM LOVE GOLD 10S": {
+      "name": "Bao cao su Sagami Love Me Gold 10s",
+      "unit": "Hộp"
+    },
+    "SGM MAGIC SHAPE 10S": {
+      "name": "Bao cao su Sagami Magic Shape 10s",
+      "unit": "Hộp"
+    },
+    "SGM MAGIC SHAPE 5S": {
+      "name": "Bao cao su Sagami Magic Shape 5s",
+      "unit": "Hộp"
+    },
+    "SGM MIRACLE 10S": {
+      "name": "Bao cao su Sagami Miracle 10s",
+      "unit": "Hộp"
+    },
+    "SGM MIRACLE 5S": {
+      "name": "Bao cao su Sagami Miracle 5s",
+      "unit": "Hộp"
+    },
+    "SGM ORANGE 10S": {
+      "name": "Bao cao su Sagami Love Orange 10s",
+      "unit": "Hộp"
+    },
+    "SGM SPEARMINT 10S": {
+      "name": "Bao cao su Sagami Spearmint 10s",
+      "unit": "Hộp"
+    },
+    "SGM SPEARMINT 3S": {
+      "name": "Bao cao su Sagami Spearmint 3s",
+      "unit": "Hộp"
+    },
+    "SGM STRAWBERRY 10S": {
+      "name": "Bao cao su Sagami Strawberry 10s",
+      "unit": "Hộp"
+    },
+    "SGM STRAWBERRY 3S": {
+      "name": "Bao cao su Sagami Strawberry 3s",
+      "unit": "Hộp"
+    },
+    "SGM SUPERTHIN 10S": {
+      "name": "Bao cao su Sagami Xtreme Superthin 10s",
+      "unit": "Hộp"
+    },
+    "SGM SUPERTHIN 2S": {
+      "name": "Bao cao su Sagami Xtreme Superthin 2s",
+      "unit": "Hộp"
+    },
+    "SGM TIGHT FIT 12S": {
+      "name": "Bao cao su Sagami Tight-Fit 12s",
+      "unit": "Hộp"
+    },
+    "SGM TYPE E 5S": {
+      "name": "Bao cao su Sagami Type 5s",
+      "unit": "Hộp"
+    },
+    "SGM WHITE 10S": {
+      "name": "Bao cao su Sagami Xtreme White 10s",
+      "unit": "Hộp"
+    },
+    "SGM WHITE 3S": {
+      "name": "Bao cao su Sagami Xtreme White 3s",
+      "unit": "Hộp"
+    }
+  },
+  "sku_multipliers": {
+    "SGM_STRAWBERRY_3S_CB3": 3
+  },
+  "review_skus": [
+    "SGM_CB3_gel3g",
+    "SGM_QT_GEL3G",
+    "SGM_GOLD_10S",
+    "SGM002H3",
+    "SGM_THIN_CLASSIC12"
+  ]
+}
