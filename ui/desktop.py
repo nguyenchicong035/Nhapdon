@@ -15,6 +15,8 @@ from parsers import excel, pdf
 from parsers.common import FIELDS, LABELS, norm
 from exporters.misa import detect, overflow, write
 from rules.engine import apply, accessories, set_prices_to_1000
+import updater
+from ui.update import show as show_update
 from ui.inventory import show as show_inventory
 
 def config_directory():
@@ -92,7 +94,7 @@ class CatalogChoice(simpledialog.Dialog):
 class App:
     def __init__(self, root):
         self.root = root
-        root.title("Nhập đơn · Shopee / TikTok → MISA AMIS")
+        root.title(f"Nhập đơn {updater.VERSION} · Shopee / TikTok → MISA AMIS")
         root.geometry("1220x740")
         self.cfg = json.loads(CONFIG.read_text(encoding="utf-8"))
         self.rows = {}
@@ -102,6 +104,7 @@ class App:
         self.busy = False
         bar = ttk.Frame(root, padding=8)
         bar.pack(fill="x")
+        ttk.Button(bar, text="Cập nhật…", command=lambda: show_update(self)).pack(side="right")
         self.import_btn = ttk.Button(bar, text="Thêm PDF / Excel", command=self.pick)
         self.import_btn.pack(side="left")
         ttk.Button(bar, text="Tồn kho…", command=lambda: show_inventory(self)).pack(side="left")

@@ -71,3 +71,7 @@ Mở [GitHub Releases](https://github.com/nguyenchicong035/Nhapdon/releases), t�
 **Xuất bảng đối soát** ghi tất cả dòng đã đọc, kể cả dòng chưa có mã đơn hoặc mã MISA, cùng SKU sàn và tên tệp nguồn. **Thiếu mã** hiển thị các dòng cần bổ sung. Chọn dòng rồi nhấn **Ghép mã MISA…**, kiểm tra phân loại và chọn mặt hàng trong danh mục. Phần mềm cập nhật các dòng đang thiếu mã của cùng SKU và lưu lựa chọn cho lần quét sau. Nếu thiếu mã đơn, đối chiếu phiếu nguồn và nhấp đúp vào ô mã đơn để sửa riêng dòng đó.
 
 Từ v1.0.4, khi thiếu cột SKU hoặc ô SKU trống, ứng dụng tìm mã dạng `[SGM_CB3_gel3g]` trong tên hoặc phân loại. Mã đã ghép được đổi sang mã MISA; mã sàn chưa ghép được giữ nguyên trong cột Mã hàng. Nếu mã trên MISA khác mã sàn, chọn dòng rồi nhấn **Ghép mã MISA…** trước khi xuất. Nút **Đơn giá 1.000 đ** đặt giá cho toàn bộ dòng đã quét và tính lại thành tiền theo số lượng thực xuất.
+
+### Cập nhật ngay trong Nhapdon
+
+Từ v1.0.5, chọn **Cập nhật… → Tải và khởi động lại** để cập nhật tệp đang chạy. Đặt Nhapdon.exe trong thư mục bạn có quyền ghi, ví dụ Downloads. Xuất hoặc ghi các đơn đang mở trước khi khởi động lại. Ứng dụng tải bản phát hành ổn định từ GitHub, kiểm tra kích thước và SHA-256 rồi chạy thử bản mới trước khi thay tệp. Các máy đang dùng v1.0.4 trở về trước cần tải bản có nút cập nhật một lần.
