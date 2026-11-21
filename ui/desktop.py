@@ -243,7 +243,8 @@ class App:
         self.cfg = cfg
         for item in self.rows.values():
             if item.get("_mapping_key") == key:
-                item.update(sku=code, **cfg["catalog"][code])
+                entry = cfg["catalog"][code]
+                item.update(sku=code, unit=entry["unit"], name=item.get("name") or entry["name"])
         self.refresh()
 
     def edit(self, event):

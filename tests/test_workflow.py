@@ -64,6 +64,18 @@ class Workflow(unittest.TestCase):
             self.assertEqual([r[7:9] for r in values[1:]], [(1000, 2000), (1000, 3000)])
             book.close()
 
+    def test_export_keeps_order_title_and_variant(self):
+        items = [dict(order="1", sku="SGM_002_12S", name="Tên trên phiếu", variant="Hộp 12", qty=1),
+                 dict(order="2", sku="SGM_002_12S", name="Gel hộp 12", variant="Hộp 12", qty=1)]
+        rows = apply(items, "orders.xlsx", CFG, "Hà Nội", False)
+        with TemporaryDirectory() as folder:
+            dest = Path(folder)/"output.xlsx"
+            write(dest, rows)
+            book = load_workbook(dest)
+            self.assertEqual(book.active["C2"].value, "Tên trên phiếu – Hộp 12")
+            self.assertEqual(book.active["C3"].value, "Gel hộp 12")
+            book.close()
+
     def test_positioned(self):
         words = [dict(x0=x, top=y, text=t) for x,y,t in [
             (10,10,"SKU"),(80,10,"Product"),(115,10,"Name"),(240,10,"Qty"),(300,10,"Order"),(335,10,"ID"),

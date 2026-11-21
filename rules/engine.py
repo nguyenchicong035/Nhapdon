@@ -58,7 +58,12 @@ def apply(items, path, config, default, auto):
         row.update(sku=config["sku_to_misa"].get(sku, sku), qty=count)
         entry = config.get("catalog", {}).get(row["sku"])
         if entry:
-            row.update(name=entry["name"], unit=entry["unit"])
+            row["unit"] = entry["unit"]
+        title = (row.get("name") or "").strip()
+        variant = (row.get("variant") or "").strip()
+        if title and norm(variant) and f" {norm(variant)} " not in f" {norm(title)} ":
+            title = f"{title} – {variant}"
+        row["name"] = title or (entry or {}).get("name") or variant
         row["_adapter_units"] = count if adapter["enabled"] and any(
             norm(k) in name for k in adapter["keywords"] if norm(k) for name in names) else 0
         result.append(row)

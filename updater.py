@@ -9,7 +9,7 @@ import subprocess
 from tempfile import NamedTemporaryFile
 from urllib.request import Request, urlopen
 
-VERSION = "1.0.5"
+VERSION = "1.0.6"
 REPO = "nguyenchicong035/Nhapdon"
 
 
