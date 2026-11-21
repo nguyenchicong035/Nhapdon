@@ -61,3 +61,7 @@ Với cặp phiếu TikTok của cùng lô, chỉ chọn bản chi tiết SA6 đ
 2. Quét đơn, đối chiếu ngày đơn, mã MISA, số lượng combo và phụ kiện. Với cùng lô, chỉ nạp một nguồn chi tiết. Chọn **Tồn kho… → Ghi đơn đã duyệt** để lưu các đơn hoàn chỉnh vào sổ. Đơn đã ghi với cùng ngày và cùng tổng số lượng theo mã sẽ được bỏ qua. Nếu cùng mã đơn nhưng khác số liệu hoặc còn SKU chưa đối chiếu, ứng dụng báo lỗi và giữ nguyên cả lô.
 3. Chọn **Ngày**, **Tuần** (thứ Hai đến Chủ nhật) hoặc **Tháng**, nhập một ngày thuộc kỳ rồi chọn **Xem báo cáo**. Phần mềm lấy lần chốt gần nhất trước đầu kỳ, trừ các đơn đã ghi từ sau lần chốt đến trước đầu kỳ để tính tồn đầu kỳ. **Tồn cuối kỳ = Tồn đầu kỳ − Đã bán trong kỳ**. Số âm được đánh dấu. Có thể xuất báo cáo ra Excel.
 4. Sổ lưu trên máy Windows ở `%LOCALAPPDATA%\Nhapdon\ton_kho.sqlite3`. Đóng ứng dụng trước khi sao lưu tệp. Danh mục được cung cấp có số dư tổng hợp nên báo cáo cũng tổng hợp các kho. Sổ tính theo ngày của các đơn đã ghi; nhập bổ sung, hoàn hàng hoặc điều chỉnh thực tế cần được phản ánh trong lần chốt MISA mới. Để tính trọn một kỳ đã có nhập hoặc hoàn hàng trong kỳ, cần đối chiếu thêm các phát sinh đó.
+
+## Bản chạy Windows (.exe)
+
+Mở [GitHub Releases](https://github.com/nguyenchicong035/Nhapdon/releases), tải **Nhapdon.exe** trong phần **Assets**, rồi chạy trên Windows 10/11 64-bit. Bản này đã đóng gói Python. Đọc PDF ảnh cần cài Tesseract như hướng dẫn ở trên. Khi chạy lần đầu, ứng dụng chép cấu hình và mẫu Excel vào `%LOCALAPPDATA%\Nhapdon\config`. Có thể chỉnh cấu hình trong thư mục này.

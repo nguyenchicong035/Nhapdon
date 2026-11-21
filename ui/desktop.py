@@ -1,4 +1,7 @@
 import json
+import os
+import shutil
+import sys
 import queue
 import re
 import threading
@@ -13,7 +16,19 @@ from exporters.misa import detect, overflow, write
 from rules.engine import apply, accessories
 from ui.inventory import show as show_inventory
 
-CONFIG = Path(__file__).resolve().parents[1] / "config" / "rules_config.json"
+def config_directory():
+    bundled = Path(__file__).resolve().parents[1] / "config"
+    if not getattr(sys, "frozen", False):
+        return bundled
+    target = Path(os.environ["LOCALAPPDATA"]) / "Nhapdon" / "config"
+    target.mkdir(parents=True, exist_ok=True)
+    for source in bundled.iterdir():
+        if source.is_file() and not (target / source.name).exists():
+            shutil.copy2(source, target / source.name)
+    return target
+
+
+CONFIG = config_directory() / "rules_config.json"
 
 
 class TemplateDialog(simpledialog.Dialog):
@@ -221,4 +236,13 @@ class App:
 def main():
     root = tk.Tk()
     App(root)
+    if "--self-test" in sys.argv:
+        import pymupdf
+        import pypdfium2
+        book = load_workbook(CONFIG.parent / "Mau_MISA_don_dat_hang.xlsx", read_only=True)
+        assert "Don dat hang" in book.sheetnames
+        book.close()
+        root.update_idletasks()
+        root.destroy()
+        return
     root.mainloop()

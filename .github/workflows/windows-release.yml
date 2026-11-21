@@ -1,0 +1,43 @@
+name: Windows EXE
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: x64
+      - run: python -m pip install -r requirements.txt pyinstaller==6.16.0
+      - run: python -m unittest discover -s tests -v
+      - run: python -m PyInstaller --noconfirm --clean --onefile --windowed --name Nhapdon --add-data "config;config" --collect-all pypdfium2 --collect-all pypdfium2_raw --collect-all pymupdf app.py
+      - name: Start packaged application and verify resources
+        shell: pwsh
+        run: |
+          $proc = Start-Process dist/Nhapdon.exe -ArgumentList '--self-test' -PassThru
+          if (-not $proc.WaitForExit(120000)) { throw 'Application startup timed out' }
+          if ($proc.ExitCode -ne 0) { throw "Application exited with code $($proc.ExitCode)" }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Nhapdon-Windows-x64
+          path: dist/Nhapdon.exe
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Nhapdon-Windows-x64
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: gh release create "$TAG" Nhapdon.exe --repo "$GITHUB_REPOSITORY" --verify-tag --title "Nhapdon $TAG · Windows x64" --notes "Tải Nhapdon.exe để chạy trên Windows 10/11 64-bit. OCR cần Tesseract với bộ ngôn ngữ vie và eng."
