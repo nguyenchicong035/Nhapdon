@@ -4,6 +4,20 @@ from pathlib import Path
 from parsers.common import norm, quantity
 
 
+def bracket_code(text):
+    for token in re.findall(r"\[([^\[\]\n]+)\]", text or ""):
+        token = token.strip()
+        if re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_./ -]*", token) and re.search(r"[0-9_]", token):
+            return token
+    return ""
+
+
+def set_prices_to_1000(rows):
+    amounts = [(row, quantity(row["qty"]) * 1000) for row in rows]
+    for row, amount in amounts:
+        row.update(price=1000, amount=amount)
+
+
 def apply(items, path, config, default, auto):
     store = default
     if auto:
@@ -20,7 +34,11 @@ def apply(items, path, config, default, auto):
         names = [norm(row.get(k)) for k in ("name", "variant")]
         match = next((m for name in names if (m := re.search(r"\bcombo\s*0*(\d+)\b", name))), None)
         count = quantity(row["qty"])
-        sku = row.get("sku", "")
+        sku = (row.get("sku") or "").strip()
+        sku = re.sub(r"^\[([^\[\]]+)\]$", r"\1", sku).strip()
+        if not sku:
+            sku = bracket_code(row.get("name")) or bracket_code(row.get("variant"))
+        row["_source_sku"] = sku
         if row.get("price"):
             row["price"] = Decimal(str(row["price"]).replace(",", "."))
         override = config.get("sku_multipliers", {}).get(sku)
@@ -36,15 +54,11 @@ def apply(items, path, config, default, auto):
                 price = Decimal(str(row["price"]))
                 row["amount"] = price * quantity(original["qty"])
                 row["price"] = price / factor
-        row["_source_sku"] = original.get("sku", "")
         row["_mapping_key"] = sku
         row.update(sku=config["sku_to_misa"].get(sku, sku), qty=count)
         entry = config.get("catalog", {}).get(row["sku"])
         if entry:
             row.update(name=entry["name"], unit=entry["unit"])
-        if sku in config.get("review_skus", []):
-            row["sku"] = ""
-            row["name"] = f"[{sku}] {row.get('name', '')}"
         row["_adapter_units"] = count if adapter["enabled"] and any(
             norm(k) in name for k in adapter["keywords"] if norm(k) for name in names) else 0
         result.append(row)

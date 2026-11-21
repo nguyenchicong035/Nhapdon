@@ -7,7 +7,7 @@ import unittest
 from openpyxl import Workbook, load_workbook
 from parsers import excel, pdf
 from exporters.misa import write, overflow, detect
-from rules.engine import apply, accessories
+from rules.engine import apply, accessories, set_prices_to_1000
 
 CFG = json.loads((Path(__file__).resolve().parents[1]/"config/rules_config.json").read_text(encoding="utf8"))
 
@@ -49,6 +49,20 @@ class Workflow(unittest.TestCase):
             result.close()
             self.assertFalse(overflow(rows[:1]*500))
             self.assertEqual(overflow(rows[:1]*501), ["00123"])
+
+    def test_brackets_and_bulk_price(self):
+        items = [dict(order="1", name="Gel [SGM_CB3_gel3g]", qty=2, amount=82000),
+                 dict(order="2", variant="[SGM_002_12S]", qty=3)]
+        rows = apply(items, "orders.xlsx", CFG, "Hà Nội", False)
+        self.assertEqual([r["sku"] for r in rows], ["SGM_CB3_gel3g", "SGM 002 12S"])
+        set_prices_to_1000(rows)
+        with TemporaryDirectory() as folder:
+            path = Path(folder)/"orders.xlsx"
+            write(path, rows)
+            book = load_workbook(path)
+            values = list(book.active.values)
+            self.assertEqual([r[7:9] for r in values[1:]], [(1000, 2000), (1000, 3000)])
+            book.close()
 
     def test_positioned(self):
         words = [dict(x0=x, top=y, text=t) for x,y,t in [

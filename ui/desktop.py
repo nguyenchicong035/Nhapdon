@@ -14,7 +14,7 @@ from openpyxl import load_workbook
 from parsers import excel, pdf
 from parsers.common import FIELDS, LABELS, norm
 from exporters.misa import detect, overflow, write
-from rules.engine import apply, accessories
+from rules.engine import apply, accessories, set_prices_to_1000
 from ui.inventory import show as show_inventory
 
 def config_directory():
@@ -127,6 +127,7 @@ class App:
         self.missing_button = ttk.Checkbutton(actions, text="Thiếu mã", variable=self.missing, command=self.refresh)
         self.missing_button.pack(side="left")
         ttk.Button(actions, text="Ghép mã MISA…", command=self.resolve).pack(side="left")
+        ttk.Button(actions, text="Đơn giá 1.000 đ", command=self.bulk_price).pack(side="left")
         ttk.Label(actions, text="Nhấp đúp vào ô để sửa").pack(side="left")
         ttk.Button(actions, text="Xóa dòng đã chọn", command=self.remove).pack(side="right")
         frame = ttk.Frame(root)
@@ -214,7 +215,7 @@ class App:
             return
         selected = self.grid.selection()
         row = self.rows[selected[0]] if selected else None
-        if not row or row.get("sku"):
+        if not row:
             row = next((r for r in self.rows.values() if not r.get("sku")), None)
         if row is None:
             messagebox.showinfo("Ghép mã", "Toàn bộ dòng đã có mã hàng.")
@@ -238,7 +239,7 @@ class App:
             return
         self.cfg = cfg
         for item in self.rows.values():
-            if item.get("_mapping_key") == key and not item.get("sku"):
+            if item.get("_mapping_key") == key:
                 item.update(sku=code, **cfg["catalog"][code])
         self.refresh()
 
@@ -254,6 +255,19 @@ class App:
             if field in ("qty", "price"):
                 self.rows[key].pop("amount", None)
             self.refresh()
+
+    def bulk_price(self):
+        if self.busy or not self.rows:
+            messagebox.showinfo("Đơn giá", "Hãy quét xong các tệp trước khi đặt đơn giá.")
+            return
+        if not messagebox.askyesno("Đặt đơn giá", f"Đặt đơn giá 1.000 đồng cho toàn bộ {len(self.rows)} dòng, kể cả dòng đang ẩn, và tính lại thành tiền?"):
+            return
+        try:
+            set_prices_to_1000(self.rows.values())
+        except ValueError as exc:
+            messagebox.showerror("Kiểm tra số lượng", str(exc))
+            return
+        self.refresh()
 
     def remove(self):
         keys = self.grid.selection()
