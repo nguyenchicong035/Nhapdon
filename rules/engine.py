@@ -36,6 +36,8 @@ def apply(items, path, config, default, auto):
                 price = Decimal(str(row["price"]))
                 row["amount"] = price * quantity(original["qty"])
                 row["price"] = price / factor
+        row["_source_sku"] = original.get("sku", "")
+        row["_mapping_key"] = sku
         row.update(sku=config["sku_to_misa"].get(sku, sku), qty=count)
         entry = config.get("catalog", {}).get(row["sku"])
         if entry:

@@ -4,6 +4,7 @@ import shutil
 import sys
 import queue
 import re
+from tempfile import NamedTemporaryFile
 import threading
 import tkinter as tk
 from pathlib import Path
@@ -68,6 +69,26 @@ class TemplateDialog(simpledialog.Dialog):
         return True
 
 
+class CatalogChoice(simpledialog.Dialog):
+    def __init__(self, parent, source, row, catalog):
+        self.source, self.row, self.catalog = source, row, catalog
+        super().__init__(parent, "Xác nhận mã MISA cho SKU sàn")
+
+    def body(self, frame):
+        ttk.Label(frame, text=f"SKU sàn: {self.source}").pack(anchor="w")
+        ttk.Label(frame, text=self.row.get("name","") + " · " + self.row.get("variant",""),
+                  wraplength=560).pack(anchor="w")
+        ttk.Label(frame, text="Chọn mã áp dụng cho mọi dòng cùng SKU và các lần quét sau:").pack(anchor="w")
+        self.choices = {f"{k}  |  {v['name']} ({v['unit']})": k for k,v in self.catalog.items()}
+        self.box = ttk.Combobox(frame, width=78, values=list(self.choices), state="readonly")
+        self.box.pack()
+        return self.box
+
+    def validate(self):
+        self.result = self.choices.get(self.box.get())
+        return self.result is not None
+
+
 class App:
     def __init__(self, root):
         self.root = root
@@ -102,6 +123,10 @@ class App:
         self.search = tk.StringVar()
         ttk.Entry(actions, textvariable=self.search).pack(side="left", padx=8)
         self.search.trace_add("write", lambda *_: self.refresh())
+        self.missing = tk.BooleanVar()
+        self.missing_button = ttk.Checkbutton(actions, text="Thiếu mã", variable=self.missing, command=self.refresh)
+        self.missing_button.pack(side="left")
+        ttk.Button(actions, text="Ghép mã MISA…", command=self.resolve).pack(side="left")
         ttk.Label(actions, text="Nhấp đúp vào ô để sửa").pack(side="left")
         ttk.Button(actions, text="Xóa dòng đã chọn", command=self.remove).pack(side="right")
         frame = ttk.Frame(root)
@@ -175,10 +200,47 @@ class App:
     def refresh(self):
         self.grid.delete(*self.grid.get_children())
         query = norm(self.search.get())
+        missing = sum(not r.get("order") or not r.get("sku") for r in self.rows.values())
+        self.missing_button.configure(text=f"Thiếu mã ({missing})")
         for key, r in self.rows.items():
+            if self.missing.get() and r.get("order") and r.get("sku"):
+                continue
             values = [r.get(k, "") for k in FIELDS]
             if query in norm(" ".join(map(str, values))):
                 self.grid.insert("", "end", iid=key, values=values)
+
+    def resolve(self):
+        if self.busy:
+            return
+        selected = self.grid.selection()
+        row = self.rows[selected[0]] if selected else None
+        if not row or row.get("sku"):
+            row = next((r for r in self.rows.values() if not r.get("sku")), None)
+        if row is None:
+            messagebox.showinfo("Ghép mã", "Toàn bộ dòng đã có mã hàng.")
+            return
+        key = row.get("_mapping_key")
+        if not key:
+            messagebox.showinfo("Ghép mã", "Dòng thiếu SKU nguồn. Nhấp đúp ô Mã hàng để điền riêng cho dòng này.")
+            return
+        code = CatalogChoice(self.root, key, row, self.cfg.get("catalog", {})).result
+        if not code:
+            return
+        try:
+            cfg = json.loads(CONFIG.read_text(encoding="utf-8"))
+            cfg["sku_to_misa"][key] = code
+            cfg["review_skus"] = [s for s in cfg.get("review_skus", []) if s != key]
+            with NamedTemporaryFile(mode="w", encoding="utf-8", dir=CONFIG.parent, delete=False) as tmp:
+                json.dump(cfg, tmp, ensure_ascii=False, indent=2)
+            os.replace(tmp.name, CONFIG)
+        except (OSError, ValueError) as exc:
+            messagebox.showerror("Không lưu được ánh xạ", str(exc))
+            return
+        self.cfg = cfg
+        for item in self.rows.values():
+            if item.get("_mapping_key") == key and not item.get("sku"):
+                item.update(sku=code, **cfg["catalog"][code])
+        self.refresh()
 
     def edit(self, event):
         key = self.grid.identify_row(event.y)
@@ -205,6 +267,12 @@ class App:
             messagebox.showinfo("Xuất Excel", "Cần có dữ liệu và hoàn tất quét trước khi xuất.")
             return
         rows = sorted(self.rows.values(), key=lambda r: str(r.get("order", "")))
+        if use_template and any(not r.get("order") or not r.get("sku") for r in rows):
+            self.missing.set(True)
+            self.search.set("")
+            self.refresh()
+            messagebox.showinfo("Cần đối chiếu", "Đã lọc các dòng thiếu mã. Dùng Ghép mã MISA cho SKU sàn hoặc nhấp đúp để điền mã đơn từ phiếu gốc. Xuất bảng đối soát sẽ lấy toàn bộ dòng.")
+            return
         large = overflow(rows)
         if large and not messagebox.askyesno("Vượt 500 dòng", f"Chứng từ vượt 500 dòng: {', '.join(large)}. Vẫn xuất?"):
             return

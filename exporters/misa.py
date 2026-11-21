@@ -36,8 +36,8 @@ def write(path, rows, template=None, sheet_name=None, start=2, mapping=None):
         else:
             sheet = book.active
             sheet.title = "Đơn đặt hàng"
-            sheet.append([LABELS[k] for k in FIELDS[:-1]])
-            mapping = {k: get_column_letter(i+1) for i, k in enumerate(FIELDS[:-1])}
+            sheet.append([LABELS[k] for k in FIELDS] + ["SKU sàn"])
+            mapping = {k: get_column_letter(i+1) for i, k in enumerate([*FIELDS, "_source_sku"])}
         if not {"order", "sku", "qty", "warehouse"}.issubset(mapping):
             raise ValueError("Cần ánh xạ ít nhất mã đơn, mã hàng, số lượng và mã kho.")
         if len(set(mapping.values())) != len(mapping):
@@ -53,7 +53,7 @@ def write(path, rows, template=None, sheet_name=None, start=2, mapping=None):
                     if c.column_letter not in mapping.values() and c.value is not None}
         for offset, r in enumerate(rows):
             idx = start + offset
-            for key in ("order", "sku", "warehouse"):
+            for key in (("order", "sku", "warehouse") if template else ()):
                 if not str(r.get(key, "")).strip():
                     raise ValueError(f"Dòng {offset+1} thiếu {LABELS[key]}.")
             qty = quantity(r.get("qty"))

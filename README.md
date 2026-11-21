@@ -65,3 +65,7 @@ Với cặp phiếu TikTok của cùng lô, chỉ chọn bản chi tiết SA6 đ
 ## Bản chạy Windows (.exe)
 
 Mở [GitHub Releases](https://github.com/nguyenchicong035/Nhapdon/releases), tải **Nhapdon.exe** trong phần **Assets**, rồi chạy trên Windows 10/11 64-bit. Bản này đã đóng gói Python. Đọc PDF ảnh cần cài Tesseract như hướng dẫn ở trên. Khi chạy lần đầu, ứng dụng chép cấu hình và mẫu Excel vào `%LOCALAPPDATA%\Nhapdon\config`. Có thể chỉnh cấu hình trong thư mục này.
+
+### Quét toàn bộ và ghép mã ngay trong ứng dụng
+
+**Xuất bảng đối soát** ghi tất cả dòng đã đọc, kể cả dòng chưa có mã đơn hoặc mã MISA, cùng SKU sàn và tên tệp nguồn. **Thiếu mã** hiển thị các dòng cần bổ sung. Chọn dòng rồi nhấn **Ghép mã MISA…**, kiểm tra phân loại và chọn mặt hàng trong danh mục. Phần mềm cập nhật các dòng đang thiếu mã của cùng SKU và lưu lựa chọn cho lần quét sau. Nếu thiếu mã đơn, đối chiếu phiếu nguồn và nhấp đúp vào ô mã đơn để sửa riêng dòng đó.
